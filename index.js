@@ -53,9 +53,25 @@ async function fetchSynopsis(outline) {
     synopsis: 
     `,
     max_tokens: 700
-  
-
   })
-  
-  document.getElementById('output-text').innerText = secondResponse.data.choices[0].text.trim()
+  const synopsis = response.data.choices[0].text.trim()
+  document.getElementById('output-text').innerText = synopsis
+  fetchTitle(synopsis)
+}
+
+async function fetchTitle(synopsis) {
+  const response = await openai.createCompletion({
+    model: 'text-davinci-003',
+    prompt: `Generate an interesting title based on a synopsis.
+    ###
+    synopsis: The Top Gun Naval Fighter Weapons School is where the best of the best train to refine their elite flying skills. When hotshot fighter pilot Maverick (Tom Cruise) is sent to the school, his reckless attitude and cocky demeanor put him at odds with the other pilots, especially the cool and collected Iceman (Val Kilmer). But Maverick isn't only competing to be the top fighter pilot, he's also fighting for the attention of his beautiful flight instructor, Charlotte Blackwood (Kelly McGillis). Maverick gradually earns the respect of his instructors and peers - and also the love of Charlotte, but struggles to balance his personal and professional life. As the pilots prepare for a mission against a foreign enemy, Maverick must confront his own demons and overcome the tragedies rooted deep in his past to become the best fighter pilot and return from the mission triumphant.  
+    title: Top Gun
+    ###
+    synopsis: ${synopsis}
+    title: 
+    `,
+    max_tokens: 16
+  })
+
+  document.getElementById('output-title').innerText = response.data.choices[0].text.trim()
 }
