@@ -70,7 +70,8 @@ async function fetchTitle(synopsis) {
     synopsis: ${synopsis}
     title: 
     `,
-    max_tokens: 16
+    max_tokens: 16,
+    temperature: 0.7
   })
 
   document.getElementById('output-title').innerText = response.data.choices[0].text.trim()
